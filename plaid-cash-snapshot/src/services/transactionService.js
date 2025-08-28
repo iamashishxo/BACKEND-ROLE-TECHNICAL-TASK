@@ -1,5 +1,5 @@
 // src/services/transactionService.js
-const logger = require('../utils/logger');
+const logger = require("../utils/logger");
 
 /**
  * Upsert a batch of transactions using provided DB client (within a transaction)
@@ -17,10 +17,10 @@ async function upsertTransactions(client, userId, itemDbId, transactions = []) {
     );
 
     if (!accountRes.rows.length) {
-      logger.warn('Account not found for transaction; skipping', {
+      logger.warn("Account not found for transaction; skipping", {
         transaction_id: tx.transaction_id,
         account_id: tx.account_id,
-        user_id: userId
+        user_id: userId,
       });
       continue; // skip inserting if we don't have account mapping
     }
@@ -66,7 +66,7 @@ async function upsertTransactions(client, userId, itemDbId, transactions = []) {
       tx.subcategory ? JSON.stringify(tx.subcategory) : null,
       tx.account_owner || null,
       tx.pending || false,
-      tx.transaction_type || null
+      tx.transaction_type || null,
     ];
 
     await client.query(upsertQuery, values);
@@ -80,7 +80,10 @@ async function upsertTransactions(client, userId, itemDbId, transactions = []) {
  */
 async function removeTransactions(client, transactionIds = []) {
   if (!transactionIds.length) return;
-  await client.query('DELETE FROM transactions WHERE transaction_id = ANY($1)', [transactionIds]);
+  await client.query(
+    "DELETE FROM transactions WHERE transaction_id = ANY($1)",
+    [transactionIds]
+  );
 }
 
 module.exports = {

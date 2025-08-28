@@ -1,6 +1,8 @@
 // src/routes/testRecurring.js
 const express = require("express");
-const { detectRecurringTransactions } = require("../utils/customRecurringDetector");
+const {
+  detectRecurringTransactions,
+} = require("../utils/customRecurringDetector");
 const mockTransactions = require("../utils/mockTransactions");
 
 const router = express.Router();
