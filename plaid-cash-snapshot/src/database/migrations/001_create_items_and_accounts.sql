@@ -1,0 +1,31 @@
+-- -- 1. Create items table
+-- CREATE TABLE IF NOT EXISTS items (
+--     id SERIAL PRIMARY KEY,
+--     user_id TEXT NOT NULL,
+--     item_id TEXT UNIQUE NOT NULL,       -- Plaid's item_id
+--     access_token TEXT NOT NULL,         -- Encrypted access token
+--     institution_id TEXT,
+--     institution_name TEXT,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
+
+-- -- 2. Create accounts table
+-- CREATE TABLE IF NOT EXISTS accounts (
+--     id SERIAL PRIMARY KEY,
+--     user_id TEXT NOT NULL,
+--     item_id INT NOT NULL REFERENCES items(id) ON DELETE CASCADE, -- FK to items.id
+--     account_id TEXT UNIQUE NOT NULL,   -- Plaid account_id
+--     name TEXT,
+--     official_name TEXT,
+--     type TEXT,
+--     subtype TEXT,
+--     mask TEXT,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
+
+-- -- 3. Add useful indexes
+-- CREATE INDEX IF NOT EXISTS idx_items_user_id ON items(user_id);
+-- CREATE INDEX IF NOT EXISTS idx_accounts_user_id ON accounts(user_id);
+-- CREATE INDEX IF NOT EXISTS idx_accounts_item_id ON accounts(item_id);

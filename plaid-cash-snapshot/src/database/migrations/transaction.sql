@@ -1,0 +1,25 @@
+-- -- transactions table
+-- CREATE TABLE IF NOT EXISTS transactions (
+--   id           SERIAL PRIMARY KEY,
+--   user_id      UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+--   account_id   UUID NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
+--   transaction_id VARCHAR(255) UNIQUE NOT NULL,
+--   amount       NUMERIC(12,2) NOT NULL,
+--   iso_currency_code VARCHAR(10),
+--   unofficial_currency_code VARCHAR(10),
+--   date         DATE NOT NULL,
+--   authorized_date DATE,
+--   name         VARCHAR(500),
+--   merchant_name VARCHAR(255),
+--   category     JSONB,
+--   subcategory  JSONB,
+--   account_owner VARCHAR(255),
+--   pending      BOOLEAN DEFAULT FALSE,
+--   transaction_type VARCHAR(50),
+--   created_at   TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+--   updated_at   TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+-- );
+
+-- CREATE INDEX IF NOT EXISTS idx_transactions_user_id ON transactions(user_id);
+-- CREATE INDEX IF NOT EXISTS idx_transactions_transaction_id ON transactions(transaction_id);
+-- CREATE INDEX IF NOT EXISTS idx_transactions_account_id ON transactions(account_id);
