@@ -11,10 +11,7 @@
  
  const router = express.Router();
  
- /**
-  * POST /auth/register
-  * Create a new user (for demo purposes)
-  */
+
  router.post('/register', async (req, res, next) => {
    try {
      const userId = uuidv4();
@@ -46,10 +43,7 @@
    }
  });
  
- /**
-  * GET /auth/user/:user_id
-  * Get user information
-  */
+
  router.get('/user/:user_id', async (req, res, next) => {
    try {
      const { user_id } = req.params;
@@ -93,10 +87,7 @@
    }
  });
  
- /**
-  * GET /auth/users
-  * List all users (for demo/testing purposes)
-  */
+
  router.get('/users', async (req, res, next) => {
    try {
      const query = `
