@@ -2,12 +2,12 @@
 
 const express = require('express');
 const router = express.Router();
-const db = require('../database/connection');   // ✅ CommonJS import
+const db = require('../database/connection');   
 const plaidService = require('../services/plaidService');
 const logger = require('../utils/logger');
 const AppError = require('../middleware/errorHandler');
 
-// ✅ Get recurring transactions (Plaid + Custom)
+// Get recurring transactions (Plaid + Custom)
 router.get('/recurring', async (req, res, next) => {
   try {
     const { user_id, type } = req.query;
@@ -20,7 +20,7 @@ router.get('/recurring', async (req, res, next) => {
       throw new AppError('Type must be either "inflow" or "outflow"', 400);
     }
 
-    // 🔹 Call Plaid + Custom detection
+    // Call Plaid + Custom detection
     let plaidRecurring = await getPlaidRecurringTransactions(user_id);
     let customRecurring = await detectCustomRecurringTransactions(user_id, type);
 
@@ -38,10 +38,10 @@ router.get('/recurring', async (req, res, next) => {
       );
     }
 
-    // 🔹 Deduplicate
+    // Deduplicate
     const uniqueTransactions = removeDuplicateRecurring(recurringTransactions);
 
-    // 🔹 Sort by avg amount
+    // Sort by avg amount
     uniqueTransactions.sort((a, b) => Math.abs(b.avg_amount) - Math.abs(a.avg_amount));
 
     res.json({
@@ -70,7 +70,7 @@ router.get('/recurring', async (req, res, next) => {
   }
 });
 
-// ✅ Run detection manually
+// Run detection manually
 router.post('/recurring/detect', async (req, res, next) => {
   try {
     const { user_id, force_refresh } = req.body;
@@ -106,12 +106,10 @@ router.post('/recurring/detect', async (req, res, next) => {
 });
 
 /* 
-|--------------------------------------------------------------------------
 | Helper Functions
-|--------------------------------------------------------------------------
 */
 
-// 🔹 Call Plaid recurring endpoint
+//  Call Plaid recurring endpoint
 async function getPlaidRecurringTransactions(userId) {
   try {
     const itemResult = await db.query(
@@ -148,8 +146,8 @@ async function getPlaidRecurringTransactions(userId) {
   }
 }
 
-// 🔹 Custom recurring detection
-// 🔹 Custom recurring detection (fixed: no make_interval, proper casts)
+// Custom recurring detection
+// Custom recurring detection (fixed: no make_interval, proper casts)
 async function detectCustomRecurringTransactions(userId, type) {
   try {
     const query = `
@@ -224,7 +222,7 @@ async function detectCustomRecurringTransactions(userId, type) {
 }
 
 
-// 🔹 Deduplication
+//  Deduplication
 function removeDuplicateRecurring(transactions) {
   const seen = new Map();
   const unique = [];
@@ -240,7 +238,7 @@ function removeDuplicateRecurring(transactions) {
   return unique;
 }
 
-// 🔹 Run detection (Plaid + Custom)
+//  Run detection (Plaid + Custom)
 async function runRecurringDetection(userId) {
   const plaidRecurring = await getPlaidRecurringTransactions(userId);
   const customRecurring = await detectCustomRecurringTransactions(userId);
